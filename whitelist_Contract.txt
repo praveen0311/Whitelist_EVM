@@ -1,0 +1,42 @@
+
+// Whitelist 
+// Created by Praveen
+pragma solidity ^0.8.0;
+
+contract StructTest {
+
+    
+  //using Strings for uint256;
+
+  struct WAStruct {
+    bool data1;
+    uint data2;
+    uint data3;
+    }
+ mapping (address => WAStruct[]) WADetails;
+
+
+ function whitelistUser(address _user, uint _qty, uint _price) public payable onlyOwner 
+ {  
+    //if (msg.sender == owner())
+    {
+    WADetails[_user].push(WAStruct(true,_qty,_price));    
+    }
+  }
+ 
+  function removeWhitelistUser(address _user) public payable {
+      WADetails[_user].pop();     
+  }
+    
+   function getWhitelist(address _user) public view returns (WAStruct[] memory){
+        return WADetails[_user];//shows up as a tuple
+  }  
+
+  function whitelistUserBulk(address[] memory _user, uint[] memory _qty, uint[] memory _price) public payable
+  {
+      for(uint i = 0; i<_user.length; i++){
+          WADetails[_user[i]].push(WAStruct(true,_qty[i],_price[i]));
+      }
+  }
+
+}
